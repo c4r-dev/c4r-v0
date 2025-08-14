@@ -1,9 +1,17 @@
 // app/page.tsx
 'use client';
 
+import { useState } from 'react';
+
 export default function Home() {
-  const openLink = (url: string) => {
-    window.open(url, '_blank');
+  const [modalUrl, setModalUrl] = useState<string | null>(null);
+
+  const openModal = (url: string) => {
+    setModalUrl(url);
+  };
+
+  const closeModal = () => {
+    setModalUrl(null);
   };
 
   return (
@@ -16,19 +24,19 @@ export default function Home() {
           <div className="button-group">
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/units-meeting/controls')}
+              onClick={() => openModal('https://www.c4r.io/units-meeting/controls')}
             >
               Meeting
             </button>
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/unit-class/controls')}
+              onClick={() => openModal('https://www.c4r.io/unit-class/controls')}
             >
               Class
             </button>
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/unit-books/controls')}
+              onClick={() => openModal('https://www.c4r.io/unit-books/controls')}
             >
               Book
             </button>
@@ -41,19 +49,19 @@ export default function Home() {
           <div className="button-group">
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/units-meeting/randomization')}
+              onClick={() => openModal('https://www.c4r.io/units-meeting/randomization')}
             >
               Meeting
             </button>
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/unit-class/randomization')}
+              onClick={() => openModal('https://www.c4r.io/unit-class/randomization')}
             >
               Class
             </button>
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/unit-books/randomization')}
+              onClick={() => openModal('https://www.c4r.io/unit-books/randomization')}
             >
               Book
             </button>
@@ -66,25 +74,44 @@ export default function Home() {
           <div className="button-group">
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/units-meeting/confirmation-bias')}
+              onClick={() => openModal('https://www.c4r.io/units-meeting/confirmation-bias')}
             >
               Meeting
             </button>
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/unit-class/confirmation-bias')}
+              onClick={() => openModal('https://www.c4r.io/unit-class/confirmation-bias')}
             >
               Class
             </button>
             <button 
               className="button" 
-              onClick={() => openLink('https://www.c4r.io/unit-books/confirmation-bias')}
+              onClick={() => openModal('https://www.c4r.io/unit-books/confirmation-bias')}
             >
               Book
             </button>
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {modalUrl && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-url">{modalUrl}</div>
+              <button className="modal-close" onClick={closeModal}>
+                ×
+              </button>
+            </div>
+            <iframe
+              src={modalUrl}
+              className="modal-iframe"
+              title="Course Content"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
